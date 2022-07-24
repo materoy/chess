@@ -1,52 +1,57 @@
-use nannou::prelude::*;
+use macroquad::prelude::*;
 
-fn main() {
-    nannou::app(model).update(update).run();
+enum ChessPieceType {
+    King,
+    Queen,
+    Rook,
+    Knight,
+    Bishop,
+    Pawn,
+}
+struct ChessPiece {
+    piece_type: ChessPieceType,
+    board_index: ((i32, i32), (i32, i32)),
+}
+struct ChessBoard {
+    pieces: Vec<ChessPiece>,
+    moves: Vec<String>,
 }
 
-struct Model {
-    _window: window::Id,
-}
+impl ChessBoard {
+    fn draw_chess_board() {
+        let padding = 20.0;
+        let min_axis = if screen_height() < screen_width() {
+            screen_height()
+        } else {
+            screen_width()
+        };
 
-fn model(app: &App) -> Model {
-    let _window = app.new_window().view(view).build().unwrap();
-    Model { _window }
-}
+        let side = (min_axis - padding) / 8.0;
+        let unit_side = min_axis / 8.0;
 
-fn update(_app: &App, _model: &mut Model, _update: Update) {}
+        for i in 0..8 {
+            for j in 0..8 {
+                let color = if (i + j) % 2 == 0 { WHITE } else { BLACK };
 
-fn view(app: &App, _model: &Model, frame: Frame) {
-    // Get canvas to draw on
-    let draw = app.draw();
-    // Set background Color
-    draw.background().color(WHEAT);
-
-    let frame_size = frame.texture().size();
-    draw_board(&draw, frame_size[0], frame_size[1]);
-
-    // Put everything on to the frame
-    draw.to_frame(app, &frame).expect("Failed to draw to frame");
-}
-
-fn draw_board(draw: &Draw, size_x: u32, size_y: u32) {
-    let smaller_side = std::cmp::min(size_x, size_y);
-    // let chess_array = [[0; 8]; 8];
-    for mut row in 0..7 {
-        for mut col in 0..7 {
-            // Reverse one half of the board index 
-            // To accomodate nannou coordinate system
-            // Since one half is on negative side
-            if row < 4 {
-                row -= row;
+                let x_pos = unit_side * i as f32;
+                let y_pos = unit_side * j as f32;
+                draw_rectangle(x_pos, y_pos, side, side, color);
             }
-            if col < 4 {
-                col -= col;
-            }
-            // Get the square coordinates
-            let x = (row * 50) as f32;
-            let y = (col * 50) as f32;
-            let side = 50.0;
-            draw.rect().color(STEELBLUE).x_y(x, y).w_h(side, side);
         }
+    }
+}
+
+#[macroquad::main("BasicShapes")]
+async fn main() {
+    loop {
+        clear_background(BEIGE);
+
+        ChessBoard::draw_chess_board();
+
+        if is_mouse_button_pressed(MouseButton::Left) {
+            println!("{:?}", mouse_position());
+        }
+
+        next_frame().await
     }
 }
