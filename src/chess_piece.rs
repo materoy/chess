@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum ChessPieceType {
     King,
     Queen,
@@ -11,12 +11,22 @@ pub enum ChessPieceType {
     None,
 }
 
+#[derive(Clone, Debug)]
 pub struct ChessPiece {
     pub color: ChessColor,
     pub piece_type: ChessPieceType,
     pub icon: Image,
 }
 
+impl PartialEq for ChessPiece {
+    fn eq(&self, other: &Self) -> bool {
+        self.color == other.color && self.piece_type == self.piece_type
+    }
+
+    fn ne(&self, other: &Self) -> bool {
+        self.color != other.color || self.piece_type != self.piece_type
+    }
+}
 impl ChessPiece {
     pub fn new(color: ChessColor, piece_type: ChessPieceType) -> Self {
         let color_prefix = color_prefix(&color);
@@ -25,13 +35,13 @@ impl ChessPiece {
             ChessPieceType::King => format!("{}_king.png", color_prefix),
             ChessPieceType::Queen => format!("{}_queen.png", color_prefix),
 
-            ChessPieceType::Rook => format!("{}_queen.png", color_prefix),
+            ChessPieceType::Rook => format!("{}_rook.png", color_prefix),
 
-            ChessPieceType::Knight => format!("{}_queen.png", color_prefix),
+            ChessPieceType::Knight => format!("{}_knight.png", color_prefix),
 
-            ChessPieceType::Bishop => format!("{}_queen.png", color_prefix),
+            ChessPieceType::Bishop => format!("{}_bishop.png", color_prefix),
 
-            ChessPieceType::Pawn => format!("{}_queen.png", color_prefix),
+            ChessPieceType::Pawn => format!("{}_pawn.png", color_prefix),
 
             ChessPieceType::None => String::from(""),
         };
@@ -55,7 +65,7 @@ impl ChessPiece {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum ChessColor {
     Black,
     White,
