@@ -12,7 +12,7 @@ async fn main() {
     loop {
         clear_background(Color::new(0.4, 0.6, 0.3, 1.0));
 
-        ChessBoard::draw_chess_board();
+        ChessBoard::new().draw_chess_board();
 
         if is_mouse_button_pressed(MouseButton::Left) {
             println!("{:?}", mouse_position());

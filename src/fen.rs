@@ -11,6 +11,12 @@ impl FenString {
         FenString { fen_string: value }
     }
 
+    pub fn new_game() -> Self {
+        FenString {
+            fen_string: STARTING_FEN.to_string(),
+        }
+    }
+
     pub fn match_piece_type(notation: char) -> Option<ChessPiece> {
         if notation.is_digit(10) {
             return None;

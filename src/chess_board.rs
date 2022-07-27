@@ -1,13 +1,10 @@
-use crate::{
-    chess_piece::*,
-    fen::{FenString, STARTING_FEN},
-};
+use crate::{chess_piece::*, fen::FenString};
 use macroquad::prelude::*;
 
 pub struct ChessBoard {
     pieces: Vec<Vec<Option<ChessPiece>>>,
     moves: Vec<String>,
-    fen_string: String,
+    fen_string: FenString,
 }
 
 impl ChessBoard {
@@ -15,10 +12,11 @@ impl ChessBoard {
         ChessBoard {
             pieces: Vec::new(),
             moves: Vec::new(),
-            fen_string: String::from(STARTING_FEN),
+            fen_string: FenString::new_game(),
         }
     }
-    pub fn draw_chess_board() {
+
+    pub fn draw_chess_board(&self) {
         let padding = 20.0;
         let min_axis = if screen_height() < screen_width() {
             screen_height()
@@ -26,15 +24,14 @@ impl ChessBoard {
             screen_width()
         };
 
-        let fen = FenString::new(STARTING_FEN.to_string());
-        let board = fen.parse_fen();
+        let board = self.fen_string.parse_fen();
 
         let side = (min_axis - padding) / 8.0;
         let unit_side = min_axis / 8.0;
 
         for i in 0..8 {
             for j in 0..8 {
-                let color = if (i + j) % 2 == 0 { GRAY } else { BROWN };
+                let mut color = if (i + j) % 2 == 0 { GRAY } else { BROWN };
 
                 let x_pos = unit_side * j as f32;
                 let y_pos = unit_side * i as f32;
@@ -45,6 +42,11 @@ impl ChessBoard {
                     h: side,
                 };
 
+                if is_mouse_button_pressed(MouseButton::Left) {
+                    if is_cell_clicked(x_pos, y_pos, side) {
+                        color = RED
+                    }
+                }
                 draw_rectangle(cell.x, cell.y, cell.w, cell.h, color);
                 match &board[i][j] {
                     Some(piece) => Self::draw_chess_piece(
@@ -88,4 +90,9 @@ impl ChessBoard {
             None => None,
         }
     }
+}
+
+fn is_cell_clicked(x: f32, y: f32, side: f32) -> bool {
+    let (mouse_x, mouse_y) = mouse_position();
+    mouse_x > x && mouse_x < x + side && mouse_y > y && mouse_y < y + side
 }
