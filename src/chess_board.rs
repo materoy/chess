@@ -2,7 +2,7 @@ use crate::{chess_piece::*, fen::STARTING_FEN};
 use macroquad::prelude::*;
 
 pub struct ChessBoard {
-    pieces: Vec<ChessPiece>,
+    pieces: Vec<Vec<Option<ChessPiece>>>,
     moves: Vec<String>,
     fen_string: String,
 }
@@ -56,9 +56,16 @@ impl ChessBoard {
         )
     }
 
-    fn has_piece(row: u32, column: u32) -> Option<ChessPiece> {
-        unimplemented!()
+    fn has_piece(&self, row: u32, column: u32) -> Option<&ChessPiece> {
+        match self.pieces.get(row as usize) {
+            Some(rank) => match rank.get(column as usize) {
+                Some(col) => match col {
+                    Some(piece) => Some(piece),
+                    None => None,
+                },
+                None => None,
+            },
+            None => None,
+        }
     }
-
-    fn load_from_fenstring(fen_string: String) {}
 }

@@ -1,5 +1,6 @@
 use macroquad::prelude::*;
 
+#[derive(Debug, PartialEq)]
 pub enum ChessPieceType {
     King,
     Queen,
@@ -54,6 +55,7 @@ impl ChessPiece {
     }
 }
 
+#[derive(Debug, PartialEq)]
 pub enum ChessColor {
     Black,
     White,
