@@ -61,6 +61,18 @@ impl FenString {
 
         pieces_matrix
     }
+
+    pub fn generate_fen_from_board(&mut self, board: Vec<Vec<Option<ChessPiece>>>) {
+        let mut fen: Vec<char> = Vec::new();
+        for i in 0..8 {
+            for j in 0..8 {
+                if let Some(piece) = &board[i][j] {
+                    fen.push(piece.to_piece_notation())
+                } else {
+                }
+            }
+        }
+    }
 }
 
 mod tests {

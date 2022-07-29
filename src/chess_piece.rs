@@ -63,6 +63,32 @@ impl ChessPiece {
             icon: Image::empty(),
         }
     }
+
+    pub fn to_piece_notation(&self) -> char {
+        let repr_char = match self.piece_type {
+            ChessPieceType::King => 'K',
+            ChessPieceType::Queen => 'Q',
+            ChessPieceType::Rook => 'R',
+            ChessPieceType::Knight => 'N',
+            ChessPieceType::Bishop => 'B',
+            ChessPieceType::Pawn => 'P',
+            ChessPieceType::None => ' ',
+        };
+
+        if self.color == ChessColor::Black {
+            return repr_char.to_ascii_lowercase();
+        } else {
+            return repr_char;
+        }
+    }
+}
+
+pub trait Move {
+    fn r#move(&self);
+}
+
+impl Move for ChessPiece {
+    fn r#move(&self) {}
 }
 
 #[derive(Debug, PartialEq, Clone)]
