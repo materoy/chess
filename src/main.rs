@@ -1,4 +1,3 @@
-
 use chess_board::ChessBoard;
 use macroquad::prelude::*;
 

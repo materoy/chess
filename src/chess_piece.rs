@@ -123,8 +123,7 @@ impl ChessPiece {
     fn is_pawn_move_valid(&self, row: usize, col: usize, dest_row: usize, dest_col: usize) -> bool {
         match self.color {
             ChessColor::White => col == dest_col && row as isize - dest_row as isize == 1,
-            ChessColor::Black => col == dest_col && dest_row as isize - row as isize == 1
-            
+            ChessColor::Black => col == dest_col && dest_row as isize - row as isize == 1,
         }
     }
 }
