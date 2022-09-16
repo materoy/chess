@@ -1,7 +1,9 @@
 extern crate bevy;
+extern crate bevy_mod_picking;
 mod pieces;
 
 use bevy::prelude::*;
+use bevy_mod_picking::*;
 use pieces::*;
 
 fn main() {
@@ -14,6 +16,7 @@ fn main() {
             ..Default::default()
         })
         .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPickingPlugins)
         .add_startup_system(setup)
         .add_startup_system(create_board)
         .add_startup_system(create_pieces)
@@ -28,11 +31,11 @@ fn setup(mut commands: Commands) {
             Vec3::new(-7.0, 20.0, 4.0),
         )),
         ..Default::default()
-    });
+    }).insert_bundle(PickingCameraBundle::default());
 
     // Light
-    commands.spawn_bundle(PointLightBundle {
-        transform: Transform::from_translation(Vec3::new(4.0, 8.0, 4.0)),
+    commands.spawn_bundle(DirectionalLightBundle {
+        transform: Transform::from_translation(Vec3::new(4.0, 0.0, 4.0)),
         ..Default::default()
     });
     // TODO improve lighting
@@ -145,11 +148,11 @@ fn create_pieces(
     );
 
     for i in 0..8 {
-        spawn_rook(
+        spawn_pawn(
             &mut commands,
             white_material.clone(),
             pawn_handle.clone(),
-            Vec3::new(1., 0., i as f32 + 0.8),
+            Vec3::new(1., 0., i as f32),
         );
     }
 
@@ -207,11 +210,11 @@ fn create_pieces(
     );
 
     for i in 0..8 {
-        spawn_rook(
+        spawn_pawn(
             &mut commands,
             black_material.clone(),
             pawn_handle.clone(),
-            Vec3::new(6., 0., i as f32 + 0.8),
+            Vec3::new(6., 0., i as f32),
         );
     }
 }

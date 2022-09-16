@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_mod_picking::PickableBundle;
 
 pub fn spawn_king(
     commands: &mut Commands,
@@ -34,7 +35,7 @@ pub fn spawn_king(
                 },
                 ..Default::default()
             });
-        });
+        }).insert_bundle(PickableBundle::default());
 }
 
 pub fn spawn_knight(
