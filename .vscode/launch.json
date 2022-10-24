@@ -7,15 +7,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'chess-bevy'",
+            "name": "Debug executable 'chess'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=chess-bevy",
-                    "--package=chess-bevy"
+                    "--bin=chess",
+                    "--package=chess"
                 ],
                 "filter": {
-                    "name": "chess-bevy",
+                    "name": "chess",
                     "kind": "bin"
                 }
             },
@@ -25,16 +25,16 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'chess-bevy'",
+            "name": "Debug unit tests in executable 'chess'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=chess-bevy",
-                    "--package=chess-bevy"
+                    "--bin=chess",
+                    "--package=chess"
                 ],
                 "filter": {
-                    "name": "chess-bevy",
+                    "name": "chess",
                     "kind": "bin"
                 }
             },

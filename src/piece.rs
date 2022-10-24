@@ -74,14 +74,14 @@ impl Piece {
                     PieceColor::White => {
                         // Normal move
                         if new_position.0 as i8 - self.x as i8 == 1 && self.y == new_position.1 {
-                            if color_of_square((self.x, self.y), &pieces).is_none() {
+                            if color_of_square(new_position, &pieces).is_none() {
                                 return true;
                             }
                         } 
 
                         // First move
                         if self.x == 1 && new_position.0 as i8 - self.x as i8 == 2 && self.y == new_position.1  {
-                            if color_of_square((self.x, self.y), &pieces).is_none() {
+                            if color_of_square(new_position, &pieces).is_none() {
                                 return true;
                             }
                         }
@@ -92,14 +92,14 @@ impl Piece {
                     PieceColor::Black => {
                         // Normal move
                         if new_position.0 as i8 - self.x as i8 == -1 && self.y == new_position.1 {
-                            if color_of_square((self.x, self.y), &pieces).is_none() {
+                            if color_of_square(new_position, &pieces).is_none() {
                                 return true;
                             }
                         } 
 
                         // First move
                         if self.x == 6 && new_position.0 as i8 - self.x as i8 == -2 && self.y == new_position.1  {
-                            if color_of_square((self.x, self.y), &pieces).is_none() {
+                            if color_of_square(new_position, &pieces).is_none() {
                                 return true;
                             }
                         }
